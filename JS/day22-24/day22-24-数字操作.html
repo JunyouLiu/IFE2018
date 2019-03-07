@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Number</title>
+        <style>
+            button{
+                display: block;
+                width: 300px;
+                text-align: center;
+                margin-top: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <label>Number A:<input id="radio-a" type="radio" name="math-obj" value="a"></label>
+            <input id="num-a" type="text"><br />
+            <label>Number B:<input id="radio-b" type="radio" name="math-obj" value="b"></label>
+            <input id="num-b" type="text"><br />
+        </div>
+        <div id="buttons">
+            <button data-index="0">判断当前选中的输入框输入内容是否为数字</button>
+            <button data-index="1">把 A 四舍五入为 B 个小数位数的数字</button>
+            <button data-index="2">当前选中数字的绝对值</button>
+            <button data-index="3">对当前选中的数字进行上舍入</button>
+            <button data-index="4">对当前选中的数字进行下舍入</button>
+            <button data-index="5">把当前选中的数字四舍五入为最接近的整数</button>
+            <button data-index="6">返回 A 和 B 中的最高值</button>
+            <button data-index="7">返回 A 和 B 中的最低值</button>
+        </div>
+        <p id="result"></p>
+
+        <script>
+            var btnList = document.querySelector('#buttons');
+            var result = document.querySelector('#result');
+
+            // 判断当前选中的输入框输入内容是否为数字
+            function isNumber(num) {
+                try {
+                    if (isNaN(num)) {
+                        throw '输入了非数字';
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                catch(err) {
+                    console.log('错误：' + err);
+                    return false;
+                }
+            }
+
+            // 对btnList使用事件委托
+            btnList.onclick = function (ev) {
+                var e = ev || window.target;
+                var target = e.target || e.srcElement;
+                if (target.nodeName.toLowerCase() === 'button') {
+                    // Number() 数值转换：如果字符串为空串或者空格串，则将其转换为 0
+                    // 这里为字符串进行 trim 处理，去除两端的空格
+                    var numA = document.querySelector('#num-a').value.trim();
+                    var numB = document.querySelector('#num-b').value.trim();
+                    var index = target.dataset.index;       //注意：dataset中index的类型为String
+                    console.log(typeof index);              //string
+                    var radio = document.querySelector("input[type = 'radio']:checked");
+                    //判断逻辑
+                    if (/[02345]/.test(index)) {
+                        if (!radio) {
+                            result.innerHTML = '没有选中单选框！';
+                        }
+                        else {
+                            if (radio.value === 'a') {
+                                if (numA === '') {
+                                    result.innerHTML = '请输入数字';
+                                    return;
+                                }
+                                var value = Number(numA);
+                            }
+                            else {
+                                if (numB === '') {
+                                    result.innerHTML = '请输入数字';
+                                    return;
+                                }
+                                var value = Number(numB);
+                            }
+                            if (isNumber(value)) {
+                                switch (index) {
+                                    case '0':
+                                        result.innerHTML = '输入了数字';
+                                        break;
+                                    case '2':
+                                        result.innerHTML = Math.abs(value);
+                                        break;
+                                    case '3':
+                                        result.innerHTML = Math.ceil(value);
+                                        break;
+                                    case '4':
+                                        result.innerHTML = Math.floor(value);
+                                        break;
+                                    case '5':
+                                        result.innerHTML = Math.round(value);
+                                        break;
+                                }
+                            }
+                            else {
+                                result.innerHTML = '输入了非数字';
+                            }
+                        }
+                    }
+                    else {
+                        if (isNumber(numA) && isNumber(numB)) {
+                            switch (index) {
+                                case "1":
+                                    result.innerHTML = "操作结果为：" + numA.toFixed(numB);       //toFixed() 方法可把 Number 四舍五入为指定小数位数的数字
+                                    break;
+                                case "6":
+                                    result.innerHTML = "操作结果为：" + Math.max(numA,numB);
+                                    break;
+                                case "7":
+                                    result.innerHTML = "操作结果为：" + Math.min(numA,numB);
+                                    break;
+                            }
+                        }
+                        else {
+                            result.innerHTML = '输入了非数字';
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

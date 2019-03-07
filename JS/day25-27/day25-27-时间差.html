@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            select {
+                width: 80px;
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="select-box">
+            <select id="year-select"></select>
+            <select id="month-select"></select>
+            <select id="day-select"></select>
+            <select id="hour-select"></select>
+            <select id="minute-select"></select>
+            <select id="second-select"></select>
+        </div>
+        <p id="result-wrapper">现在距离 2001年1月1日星期X HH:MM:SS 还有 X 天 X 小时 X 分 X 秒</p>
+
+        <script>
+            var yearSelect = document.querySelector('#year-select');
+            var monthSelect = document.querySelector('#month-select');
+            var daySelect = document.querySelector('#day-select');
+            var hourSelect = document.querySelector('#hour-select');
+            var minuteSelect = document.querySelector('#minute-select');
+            var secondSelect = document.querySelector('#second-select');
+            var selectBox = document.querySelector('#select-box');
+            var result = document.querySelector('#result-wrapper');
+
+            // 给select添加option
+            function addOption(element, start, end) {
+                for (var i = start; i <= end; i++) {
+                    var option = document.createElement('option');
+                    // typeof option.value 为 "string"
+                    option.value = i;
+                    option.innerHTML = i;
+                    element.appendChild(option);
+                }
+            }
+
+            // 初始化select
+            function initializeSelect() {
+                addOption(yearSelect, 2000, 2032);
+                addOption(monthSelect, 1, 12);
+                addOption(daySelect, 1, 31);
+                addOption(hourSelect, 0, 23);
+                addOption(minuteSelect, 0, 59);
+                addOption(secondSelect, 0, 59);
+                rationalityCheck();
+            }
+
+            // 选择不同月份的时候，日期的可选范围不一样，比如1月可以选31天，11月只有30天，注意闰年
+            // 判断大小月、闰年
+            function rationalityCheck() {
+                daySelect.children[28].style = '';
+                daySelect.children[29].style = '';
+                daySelect.children[30].style = '';
+
+                var specialMonth = [2, 4, 6, 9, 11];
+                var year = Number(yearSelect.value);
+                var month = Number(monthSelect.value);
+                for (var i in specialMonth) {
+                    if (month === specialMonth[i]) {
+                        daySelect.children[30].style.display = 'none';
+                        break;
+                    }
+                }
+                if (month === 2) {
+                    daySelect.children[29].style.display = 'none';
+                    // 闰年：可以被4整除但不能被100整除或者可以被400整除
+                    if (!((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)) {
+                        daySelect.children[28].style.display = 'none';
+                    }
+                }
+            }
+
+            // 位数补齐
+            function fillNumber(num) {
+                if (num < 10) {
+                    num = '0' + num;
+                }
+                return num;
+            }
+
+            // 来根据某个日期返回这一天是星期几
+            function formatDayCn(date) {
+                var day = date.getDay();
+                var dayArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+                return dayArr[day];
+            }
+
+            // 日期格式化输出
+            function getFormatDate(date) {
+                var year = date.getFullYear(),
+                    month = date.getMonth() + 1,
+                    day = date.getDate(),
+                    formatDay = formatDayCn(date),
+                    hour = fillNumber(date.getHours()),
+                    minute = fillNumber(date.getMinutes()),
+                    second = fillNumber(date.getSeconds());
+                var formatDate = year + '年' + month + '月' + day + '日 ' + formatDay + ' ' + hour + ':' + minute + ':' + second;
+                return formatDate;
+            }
+
+            // 用毫秒格式化时间
+            function formatDateByMs(timeByMs) {
+                var dayByMs = 24 * 60 * 60 * 1000,
+                    hourByMs = 60 * 60 * 1000,
+                    minuteByMs = 60 * 1000,
+                    secondByMs = 1000;
+                var day = parseInt(timeByMs / dayByMs);
+                timeByMs = timeByMs % dayByMs;
+                var hour = parseInt(timeByMs / hourByMs);
+                timeByMs = timeByMs % hourByMs;
+                var minute = parseInt(timeByMs / minuteByMs);
+                timeByMs = timeByMs % minuteByMs;
+                var second = parseInt(timeByMs / secondByMs);
+                return (day + " 天 " + hour + " 小时 " + minute + " 分 " + second + " 秒");
+            }
+
+            // 计算时间差
+            function calculateDate() {
+                var year = yearSelect.value,
+                    month = monthSelect.value,
+                    day = daySelect.value,
+                    hour = hourSelect.value,
+                    minute = minuteSelect.value,
+                    second = secondSelect.value;
+                var selectedDate = new Date(year, month - 1, day, hour, minute, second);
+                var nowDate = new Date();
+                var dateDifference = nowDate - selectedDate;    // 两个Date对象相减得出来的结果是两个日期相差的毫秒数，是数值类型的
+                var status = '';
+
+                if (dateDifference >= 0) {
+                    status = '已经过去';
+                }
+                else {
+                    status = '还有';
+                    dateDifference = Math.abs(dateDifference);
+                }
+                var formatSelectedDate = getFormatDate(selectedDate);
+                var formatDifference = formatDateByMs(dateDifference);
+                result.innerHTML = '现在距离 ' + formatSelectedDate + ' ' + status + ' ' + formatDifference;
+            }
+
+            initializeSelect();
+            selectBox.onchange = function (ev) {
+                var e = ev || window.event;
+                var target = e.target || e.srcElement;
+                if (target.nodeName.toLowerCase() === 'select') {
+                    rationalityCheck();
+                }
+            }
+            calculateDate();
+            setInterval(calculateDate, 1000);
+        </script>
+    </body>
+</html>

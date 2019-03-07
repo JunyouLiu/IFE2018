@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Clock</title>
+    </head>
+    <body>
+        <p id="clock_1"></p>
+        <p id="clock_2"></p>
+
+        <script>
+            var clock_1 = document.querySelector('#clock_1');
+            var clock_2 = document.querySelector('#clock_2');
+
+            // 在页面中显示当前日期及时间，按秒更新
+            // 格式1为：YYYY年MM月DD日 星期D HH:mm:ss
+            // 格式2为：2008-10-10 Monday 07:10:30 PM
+            // 注意位数补齐
+            // 来根据某个日期返回这一天是星期几（中文）
+            function formatDayCh(date) {
+                var day = date.getDay();        // getDay() 从Date对象返回一周中的某一天(0 ~ 6)。
+                var dayArr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+                return dayArr[day];
+            }
+            // 来根据某个日期返回这一天是星期几（英文）
+            function formatDayEn(date) {
+                var day = date.getDay();
+                var dayArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                return dayArr[day];
+            }
+            // 位数补齐
+            function fillNumber(num) {
+                if (num < 10) {
+                    num = '0' + num;
+                }
+                return num;
+            }
+            // 格式化小时（格式2用到）
+            function formatHour(hour) {
+                var datetime = [];
+                if (hour > 12) {
+                    datetime[0] = hour - 12;
+                    datetime[1] = 'PM';
+                }
+                else {
+                    datetime[0] = hour;
+                    datetime[1] = 'AM';
+                }
+                return datetime;
+            }
+            // 日期格式化输出，格式1
+            function getFormatDate1() {
+                var date = new Date(),
+                    year = date.getFullYear(),
+                    month = fillNumber(date.getMonth() + 1),
+                    day = fillNumber(date.getDate()),
+                    formatDay = formatDayCh(date),
+                    hour = fillNumber(date.getHours()),
+                    minute = fillNumber(date.getMinutes()),
+                    second = fillNumber(date.getSeconds()),
+                    formatDate = year + '年' + month + '月' + day + '日 ' + formatDay + ' ' + hour + ':' + minute + ':' + second;
+                return formatDate;
+            }
+            // 日期格式化输出，格式2
+            function getFormatDate2() {
+                var date = new Date(),
+                    year = date.getFullYear(),
+                    month = fillNumber(date.getMonth() + 1),
+                    day = fillNumber(date.getDate()),
+                    formatDay = formatDayEn(date),
+                    datetime = formatHour(date.getHours()),
+                    hour = datetime[0],
+                    period = datetime[1],
+                    minute = fillNumber(date.getMinutes()),
+                    second = fillNumber(date.getSeconds()),
+                    formatDate = year + '-' + month + '-' + day + ' ' + formatDay + ' ' + hour + ':' + minute + ':' + second + ' ' + period;
+                return formatDate;
+            }
+            function startFormatDate1() {
+                clock_1.innerHTML = getFormatDate1();
+            }
+            function startFormatDate2() {
+                clock_2.innerHTML = getFormatDate2();
+            }
+            startFormatDate1();
+            startFormatDate2();
+            setInterval(function () {
+                startFormatDate1();
+                startFormatDate2();
+            }, 1000);
+
+        </script>
+    </body>
+</html>

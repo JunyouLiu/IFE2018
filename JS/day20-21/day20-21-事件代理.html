@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>IFE ECMAScript</title>
+        <style>
+            .palette {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            .palette li {
+                width: 40px;
+                height: 40px;
+                border: 1px solid #000;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <ul class="palette">
+            <li style="background-color:crimson"></li>
+            <li style="background-color:bisque"></li>
+            <li style="background-color:blueviolet"></li>
+            <li style="background-color:coral"></li>
+            <li style="background-color:chartreuse"></li>
+            <li style="background-color:darkolivegreen"></li>
+            <li style="background-color:cyan"></li>
+            <li style="background-color:#194738"></li>
+        </ul>
+
+        <p class="color-picker"></p>
+
+        <script>
+            // 点击某一个 Li 标签时，将 Li 的背景色显示在 P 标签内，并将 P 标签中的文字颜色设置成 Li 的背景色
+            var list = document.querySelector(".palette");
+            list.onclick = function(ev) {
+                var e = ev || window.event;     // IE中event可以通过window.event随时取到，而其他浏览器需要通过参数传递
+                var target = e.target || e.srcElement;      // target表示在事件冒泡中触发事件的源元素，在IE中是srcElement
+                if (target.nodeName.toLowerCase() === 'li') {
+                    var bc = target.style.backgroundColor;
+                    var p = document.querySelector('.color-picker');
+                    p.innerHTML = bc;
+                    p.style.color = bc;
+                }
+            }
+        </script>
+    </body>
+</html>

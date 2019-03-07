@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Object</title>
+    </head>
+    <body>
+        <input type="text" id="input">
+        <div id="buttons">
+            <button id="search_name">Search name</button>
+            <button id="search_id">Search id</button>
+            <button id="dlr">DLR list</button>
+            <button id="ldr">LDR list</button>
+            <button id="lrd">LRD list</button>
+        </div>
+        <p id="result"></p>
+
+        <script>
+            var tree = {
+                "id": 0,
+                "name": "root",
+                "left": {
+                    "id": 1,
+                    "name": "Simon",
+                    "left": {
+                        "id": 3,
+                        "name": "Jack",
+                        "left": {
+                            "id": 7,
+                            "name": "Lee",
+                            "left": {
+                                "id": 11,
+                                "name": "Fate"
+                            }
+                        },
+                        "right": {
+                            "id": 8,
+                            "name": "Annie",
+                            "left": {
+                                "id": 12,
+                                "name": "Saber"
+                            }
+                        }
+                    },
+                    "right": {
+                        "id": 4,
+                        "name": "Tony",
+                        "left": {
+                            "id": 9,
+                            "name": "Candy"
+                        }
+                    }
+                },
+                "right": {
+                    "id": 2,
+                    "name": "Rose",
+                    "left": {
+                        "id": 5,
+                        "name": "Rookie",
+                    },
+                    "right": {
+                        "id": 6,
+                        "name": "Carl",
+                        "right": {
+                            "id": 10,
+                            "name": "Kai"
+                        }
+                    }
+                }
+            }
+
+            // 假设id和name均不会重复，根据输入name找到对应的id
+            function findIdByName(name) {
+                var result = '未找到id';
+                function search(node) {
+                    if (node) {
+                        if (node.name === name) {
+                            result = node.id;
+                        }
+                        else {
+                            search(node.left);
+                            search(node.right);
+                        }
+                    }
+                }
+                search(tree);
+                return result;
+            }
+
+            // 假设id和name均不会重复，根据输入id找到对应的name
+            function findNameById(id) {
+                var result = '未找到name';
+                function search(node) {
+                    if (node) {
+                        if (node.id === id) {
+                            result = node.name;
+                        }
+                        else {
+                            search(node.left);
+                            search(node.right);
+                        }
+                    }
+                }
+                search(tree);
+                return result;
+            }
+
+            // 把这个对象中所有的名字以“前序遍历”的方式全部输出到console中
+            function getListWithDLR() {
+                var result = '';
+                function DLR_view(node) {
+                    if (node) {
+                        result += node.name + ' ';
+                        DLR_view(node.left);
+                        DLR_view(node.right);
+                    }
+                }
+                DLR_view(tree);
+                return result;
+            }
+
+            // 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中
+            function getListWithLDR() {
+                var result = '';
+                function LDR_view(node) {
+                    if (node) {
+                        LDR_view(node.left);
+                        result += node.name + ' ';
+                        LDR_view(node.right);
+                    }
+                }
+                LDR_view(tree);
+                return result;
+            }
+
+            // 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
+            function getListWithLRD() {
+                var result = '';
+                function LRD_view(node) {
+                    if (node) {
+                        LRD_view(node.left);
+                        LRD_view(node.right);
+                        result += node.name + ' ';
+                    }
+                }
+                LRD_view(tree);
+                return result;
+            }
+
+            var input = document.querySelector('#input');
+            var p = document.querySelector('#result');
+            var buttons = document.querySelector('#buttons');
+            buttons.onclick = function (ev) {
+                var e = ev || window.event;
+                var target = e.target || e.srcElement;
+                if (target.nodeName.toLowerCase() === 'button') {
+                    var id = target.id;
+                    switch (id) {
+                        case 'search_name':
+                            p.innerHTML = findIdByName(input.value);
+                            break;
+                        case 'search_id':
+                            p.innerHTML = findNameById(Number(input.value));
+                            break;
+                        case 'dlr':
+                            p.innerHTML = getListWithDLR();
+                            break;
+                        case 'ldr':
+                            p.innerHTML = getListWithLDR();
+                            break;
+                        case 'lrd':
+                            p.innerHTML = getListWithLRD();
+                            break;
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

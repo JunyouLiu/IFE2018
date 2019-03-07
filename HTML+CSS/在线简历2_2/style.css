@@ -1,0 +1,46 @@
+/*两列布局，float*/
+body {
+    background-color: #eee;
+    width: 50%;
+    min-width: 600px;
+    margin: 20px auto;
+}
+
+/*闭合浮动最佳方式*/
+/*利用margin负值实现分栏高度显示一致，给分栏设置margin-bottom:-3000px; padding-bottom:3000px;*/
+/*再配合父标签的overflow:hidden属性即可实现高度自动相等*/
+.content {
+    background-color: white;
+    border: 1px solid black;
+    overflow: hidden;
+    zoom: 1;
+}
+.content:after {
+    content: " ";
+    display:block;
+    height: 0;
+    /*content为空字符串时，可省略visibility: hidden;*/
+    visibility: hidden;
+    clear: both;
+}
+span {
+    font-weight: bold;
+}
+.left {
+    float: left;
+    background-color: #29B6F6;
+    color: white;
+    text-align: center;
+    width: 25%;
+    padding: 30px 0 3000px;
+    margin-bottom: -3000px;
+}
+.right {
+    float: right;
+    width: 70%;
+    margin-right: 15px;
+}
+footer {
+    margin-top: 30px;
+    text-align: center;
+}

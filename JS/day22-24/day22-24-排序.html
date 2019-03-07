@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sort</title>
+    </head>
+    <body>
+        <script>
+            var arr_1 = [43, 54, 4, -4, 84, 100, 58, 27, 140];
+            var arr_2 = ['apple', 'dog', 'cat', 'car', 'zoo', 'orange', 'airplane'];
+            var arr_3 = [[10, 14], [16, 60], [7, 44], [26, 35], [22, 63]];
+            var arr_4 = [
+                {
+                    id: 1,
+                    name: 'candy',
+                    value: 40
+                }, {
+                    id: 2,
+                    name: 'Simon',
+                    value: 50
+                }, {
+                    id: 3,
+                    name: 'Tony',
+                    value: 45
+                }, {
+                    id: 4,
+                    name: 'Annie',
+                    value: 60
+                }
+            ];
+
+            //将数组arr_1从小到大进行排序后在console中输出
+            function sortNumber(a, b) {
+                return a - b;
+            }
+            console.log('arr_1从小到大排序：' + arr_1.sort(sortNumber).toString());
+
+            //将数组arr_2分别按字母顺序a-z及z-a进行排序，在console中输出
+            function descSort(a, b) {
+                if (a < b) {
+                    return 1;
+                }
+                if (a > b) {
+                    return -1;
+                }
+                return 0;
+            }
+            console.log('arr_2按字母顺序a-z排序：' + arr_2.sort());
+            console.log('arr_2按字母顺序z-a排序：' + arr_2.sort(descSort));
+
+            //将二维数组arr_3，按照每个元素中第二个数从大到小的顺序进行排序输出
+            function descSort_2(a, b) {
+                if (a[1] < b[1]) {
+                    return 1;
+                }
+                if (a[1] > b[1]) {
+                    return -1;
+                }
+                return 0;
+            }
+            console.log('arr_3按每个元素中第二个数从大到小排序：' + JSON.stringify(arr_3.sort(descSort_2)));
+            console.log(arr_3.sort(descSort_2));
+
+            //将arr_4按元素对象的value值从小到大进行排序输出
+            function valueSort(a, b) {
+                if (a.value < b.value) {
+                    return -1;
+                }
+                if (a.value > b.value) {
+                    return 1;
+                }
+                return 0;
+            }
+            console.log('arr_4按元素对象的value值从小到大排序：');
+            console.log(arr_4.sort(valueSort));
+        </script>
+    </body>
+</html>

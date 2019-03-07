@@ -1,0 +1,359 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: #eeeeee;
+    padding: 0;
+    width: 1600px;
+    margin: 5px auto;
+    min-width: 1100px;
+}
+
+/*header*/
+.header {
+    background-image: url('images/background.png');
+    background-position: center;
+    width: 100%;
+    height: 900px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    padding-top: 150px;
+}
+.header .title {
+    font-size: 60px;
+    font-weight: lighter;
+}
+.header .content {
+    width: 800px;
+    margin: 60px auto;
+    font-weight: lighter;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 20px;
+}
+.header .account_area {
+    width: 1000px;
+    height: 250px;
+    margin: 80px auto;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.5px;
+}
+.header .account_area div:nth-of-type(1) {
+    margin-top: 60px;
+}
+.header .account_area div:nth-of-type(2) {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 20px;
+}
+.header .account_area .sign_up {
+    margin-top: 40px;
+}
+.header .account_area .sign_up input, .header .account_area .sign_up button {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+    height: 40px;
+    padding: 0 20px;
+}
+.header .account_area .sign_up input {
+    background-color: rgba(255, 255, 255, 0);
+    width: 200px;
+    margin-right: 30px;
+}
+.header .account_area .sign_up input:nth-of-type(1)::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+.header .account_area .sign_up button {
+    width: 120px;
+    letter-spacing: 0.5px;
+}
+
+/*section_1*/
+.section_1 {
+    width: 100%;
+    height: 650px;
+    background-color: white;
+    padding-top: 70px;
+    text-align: center;
+}
+.section_1 .subheading {
+    letter-spacing: 0.5px;
+}
+.section_1 .title {
+    width: 700px;
+    font-size: 40px;
+    font-weight: lighter;
+    margin: 20px auto 0;
+}
+.section_1 .content {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
+    padding: 40px 250px;
+}
+.section_1 .content .item {
+    flex: 1 400px;
+    display: flex;
+    padding: 30px;
+    margin: 10px;
+}
+.section_1 .content .item .left {
+    flex: 1;
+}
+.section_1 .content .item .right {
+    flex: 6;
+}
+.section_1 .content .item div p {
+    margin: 0;
+    font-weight: lighter;
+}
+.section_1 .content .item div h3 {
+    margin: 0 0 20px 0;
+}
+
+/*section_2*/
+.section_2 {
+    background-image: url("images/background_2.png");
+    background-position: center;
+    width: 100%;
+    height: 750px;
+    position: relative;
+}
+.section_2 .text {
+    width: 350px;
+    position: absolute;
+    top: 170px;
+    left: 300px;
+}
+.section_2 .text h2 {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 40px;
+    font-weight: lighter;
+    letter-spacing: 0.5px;
+}
+.section_2 .text p {
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.5em;
+    font-weight: lighter;
+    margin-top: 30px;
+}
+.section_2 .operate {
+    position: absolute;
+    top: 520px;
+    left: 300px;
+}
+.section_2 .operate button {
+    width: 200px;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+.section_2 .operate button:nth-of-type(1) {
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-right: 20px;
+}
+.section_2 .operate button:nth-of-type(2) {
+    background-color: rgba(255, 255, 255, 0);
+    color: rgba(255, 255, 255, 0.8);
+}
+.section_2 .ipad {
+    text-align: right;
+    padding-top: 75px;
+}
+
+/*section_3*/
+.section_3 {
+    width: 100%;
+    height: 540px;
+    background-color: white;
+    padding-top: 70px;
+    text-align: center;
+    border-bottom: 2px solid #eeeeee;
+}
+.section_3 h2 {
+    font-size: 40px;
+    font-weight: lighter;
+}
+.section_3 .content {
+    display: flex;
+    margin-top: 70px;
+    padding: 0 290px;
+}
+.section_3 .content .item {
+    padding: 0 33px;
+    font-weight: lighter;
+    letter-spacing: 0.5px;
+}
+
+/*section_4*/
+.section_4 {
+    width: 100%;
+    height: 1000px;
+    background-color: white;
+    padding-top: 70px;
+    border-bottom: 2px solid #eeeeee;
+}
+.section_4 div {
+    padding: 40px 300px;
+    zoom: 1;
+}
+.section_4 div:after {
+    content: "";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+.section_4 .item_1 img {
+    float: left;
+    margin-right: 90px;
+}
+.section_4 .item_2 img {
+    float: right;
+    margin-left: 90px;
+}
+.section_4 h3 {
+    font-weight: normal;
+    margin-top: 70px;
+}
+.section_4 p {
+    font-weight: lighter;
+    line-height: 1.5em;
+}
+
+/*section_5*/
+.section_5 {
+    width: 100%;
+    height: 1000px;
+    background-color: white;
+    padding-top: 60px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #eeeeee;
+}
+.section_5 h2 {
+    font-weight: normal;
+}
+.section_5 p {
+    width: 650px;
+    margin: 0 auto;
+    font-weight: lighter;
+}
+.section_5 .photo {
+    padding: 40px 300px;
+    position: relative;
+}
+.section_5 .photo img {
+    padding: 10px;
+}
+.section_5 .photo .shadow {
+    padding: 10px;
+    position: absolute;
+    opacity: 0;
+    right: 804px;
+}
+.section_5 .photo .shadow:hover {
+    opacity: 1;
+}
+
+/*section_6*/
+.section_6 {
+    width: 100%;
+    height: 700px;
+    background-color: white;
+    padding-top: 75px;
+    letter-spacing: 0.5px;
+}
+.section_6 div {
+    display: inline-block;
+}
+.section_6 .message {
+    float: left;
+    text-align: center;
+    margin: 0 100px 0 330px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 40px 30px;
+}
+.section_6 .message h3 {
+    font-weight: normal;
+    margin-bottom: 40px;
+}
+.section_6 .message input, .section_6 .message button, .section_6 .message textarea {
+    display: block;
+    width: 350px;
+    padding: 15px;
+    margin: 30px 20px;
+}
+.section_6 .message textarea {
+    height: 120px;
+    resize: none;
+}
+.section_6 .message button {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    letter-spacing: 2px;
+}
+.section_6 .contact {
+    float: left;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+.section_6 .contact h2 {
+    font-size: 40px;
+    font-weight: lighter;
+    margin: 60px 0 10px;
+}
+.section_6 .contact p {
+    line-height: 1.7em;
+    font-weight: lighter;
+    margin-bottom: 30px;
+}
+.section_6 .contact img {
+    width: 30px;
+    height: 30px;
+    float: left;
+    margin-top: 22px;
+}
+.section_6 .contact div p {
+    padding-left: 50px;
+    font-weight: normal;
+}
+
+/*footer*/
+.footer {
+    width: 100%;
+    height: 370px;
+    background-color: black;
+    display: flex;
+    padding: 60px 150px;
+}
+.footer div {
+    flex: 1;
+}
+.footer div p {
+    padding-left: 40px;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.9);
+}
+.footer ul {
+    list-style-type: none;
+}
+.footer ul li {
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: lighter;
+    padding: 10px 0;
+}
+.footer div:nth-of-type(4) p:nth-of-type(2) {
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: lighter;
+    line-height: 30px;
+}
+
+

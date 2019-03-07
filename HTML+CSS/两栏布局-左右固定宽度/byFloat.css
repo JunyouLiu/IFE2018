@@ -1,0 +1,22 @@
+body {
+    background-color: #eee;
+    width: 50%;
+    height: 800px;
+    min-width: 600px;
+    margin: 20px auto;
+    border: 1px solid red;
+    box-sizing: border-box;
+}
+
+.left {
+    width: 30%;
+    height: 100%;
+    float: left;
+    background-color: #29B6F6;
+}
+.right {
+    width: 70%;
+    height: 100%;
+    float: left;
+    background-color: lightseagreen;
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mail</title>
+        <style>
+            .wrapper {
+                position: relative;
+                width:250px;
+                margin: 0 auto;
+            }
+            #email-input {
+                width: 250px;
+                height: 40px;
+                box-sizing: border-box;
+                font-size: 16px;
+                border: 1px solid #e1e1e1;
+                padding-left: 10px;
+                outline: none;
+            }
+            #email-sug-wrapper {
+                width: 250px;
+                box-sizing: border-box;
+                list-style-type: none;
+                padding: 0;
+                position: absolute;
+                top: 23px;
+            }
+            li {
+                width: 250px;
+                height: 35px;
+                box-sizing: border-box;
+                color: darkgrey;
+                padding: 7px 0 7px 10px;
+            }
+            li:hover {
+                background-color: #aaaaaa;
+                color: #ffffff;
+            }
+            .key_select {
+                background-color: #aaccff;
+                color: #ffffff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <input id="email-input" type="text">
+            <ul id="email-sug-wrapper" class="email-sug"></ul>
+        </div>
+
+        <script>
+
+            var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+            var input = document.querySelector('#email-input');
+            var suggestionList = document.querySelector('#email-sug-wrapper');
+            // 键盘操作提示框（回车和上下键）
+            // 增加一个变量，用于存储当前选中的提示 Li 的序号
+            var selectIndex = 0;
+            // 一进入页面就将焦点放在输入框中
+            window.onload = input.focus();
+            // oninput，onkeypress，onkeyup，onkeydown 区别：
+            // oninput 不能识别 ESC、方向键和回车（只对字母数字有反应），可识别连打
+            // onkeypress 不能识别连打，不能识别 ESC 和方向键
+            // onkeyup 不能识别连打，会在点击输入框，产生焦点时，多运行一次函数。因为只在按键弹起时才响应，当使用 CTRL-X、CTRL-V 操作内容时，会出现延迟
+            // onkeydown 能识别连打，但遇到 macOS 长按字母输入特殊符号这种情况时，会将其误作为连打判断。不会多运行函数，但函数是在按键按下时运行，即函数运行时，这一次按键产生的输入内容还没到达函数，即输入有延迟。
+
+            // 匹配邮箱列表时采用 oninput
+            input.oninput = function (ev) {
+                var e = ev || window.event;
+                var target = e.target || e.srcElement;
+                var inputValue = formatInputValue(target.value);
+                if (inputValue === '') {
+                    hideList();
+                }
+                else {
+                    addSuggestion(inputValue);
+                    showList();
+                }
+            };
+            // 鼠标点击某个提示，则提示内容进入输入框，同时提示框消失
+            suggestionList.onclick = function (ev) {
+                var e = ev || window.event;
+                var target = e.target || e.srcElement;
+                if (target.nodeName.toLowerCase() === 'li') {
+                    input.value = target.innerText;
+                    input.focus();
+                }
+                hideList();
+            }
+            // 操作提示框时采用 onkeydown
+            input.onkeydown = function (ev) {
+                var e = ev || window.event;
+                var length = suggestionList.children.length;
+                if (suggestionList.style.display != 'none') {
+                    switch (e.key) {
+                        case 'ArrowUp':
+                            e.preventDefault();         //注意：这里添加 preventDefault()，不然光标会跳转到输入的开头
+                            selectIndex -= 1;
+                            if (selectIndex < 0) {
+                                selectIndex = length - 1;
+                            }
+                            keySelect(selectIndex);
+                            break;
+                        case 'ArrowDown':
+                            selectIndex += 1;
+                            if (selectIndex > length - 1) {
+                                selectIndex = 0;
+                            }
+                            keySelect(selectIndex);
+                            break;
+                        case 'Enter':
+                            input.value = suggestionList.children[selectIndex].innerText;
+                            input.focus();
+                            hideList();
+                            break;
+                    }
+                }
+                if (e.key === 'Escape' || e.key === 'Esc') {
+                    input.select();
+                    hideList();
+                }
+            }
+
+            // 编码与解码，利用浏览器内部转换器实现 html 编码和解码
+            // 若实际操作这些内容的地方都用 innerText，就无需这两个编码和解码函数了
+            function htmlEncode(str) {
+                var temp = document.createElement("div");
+                temp.innerText = str;
+                var output = temp.innerHTML;
+                temp = null;
+                return output;
+            }
+            function htmlDecode(str) {
+                var temp = document.createElement("div");
+                temp.innerHTML = str;
+                var output = temp.innerText;
+                temp = null;
+                return output;
+            }
+
+            // 获取用户输入，trim 后返回
+            // trim() 方法会从一个字符串的两端删除空白字符
+            function formatInputValue(str) {
+                str = str.trim();
+                return str;
+            }
+
+            // 生成提示框中的提示内容
+            function getItemList(str) {
+                var userName = '';
+                var domainName = '';
+                var itemList = [];
+                if (str.indexOf('@') !== -1) {
+                    var index = str.indexOf('@');
+                    userName = str.substring(0, index);
+                    if (index < str.length - 1) {
+                        domainName = str.substring(index + 1);
+                    }
+                }
+                else {
+                    userName = str;
+                }
+                if (domainName === '') {
+                    for (var i = 0; i < postfixList.length; i++) {
+                        itemList.push(userName + '@' + postfixList[i]);
+                    }
+                }
+                else {
+                    for (var i = 0; i < postfixList.length; i++) {
+                        if (postfixList[i].indexOf(domainName) === 0) {
+                            itemList.push(userName + '@' + postfixList[i]);
+                        }
+                    }
+                    // 当域名不匹配的时，itemList 为空，此时出现全部提示
+                    if (itemList.length === 0) {
+                        for (var i = 0; i < postfixList.length; i++) {
+                            itemList.push(userName + '@' + postfixList[i]);
+                        }
+                    }
+                }
+                return itemList;
+            }
+
+            // 将提示内容添加到 email-sug-wrapper
+            function addSuggestion(str) {
+                var itemList = getItemList(str);
+                suggestionList.innerHTML = '';          // 清空 suggestionList
+                for (var i = 0; i < itemList.length; i++) {
+                    var item = document.createElement('li');
+                    item.innerText = itemList[i];
+                    suggestionList.appendChild(item);
+                }
+            }
+
+            // 键盘选择 item，重新渲染样式
+            function keySelect(index) {
+                var itemList = suggestionList.children;
+                // 清除其他选项的 class
+                for (var x in itemList) {
+                    itemList[x].className = '';
+                }
+                itemList[index].className = 'key_select';
+            }
+
+            // 隐藏提示框
+            function hideList() {
+                suggestionList.style.display = 'none';
+            }
+            // 显示提示框
+            function showList() {
+                suggestionList.style.display = '';
+                suggestionList.style.border = '1px solid #e1e1e1';
+                selectIndex = 0;
+                keySelect(selectIndex);
+            }
+
+        </script>
+    </body>
+</html>
